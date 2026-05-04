@@ -51,7 +51,13 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 		BlockPathWalker.tick((ClientPlayerEntity)(Object)this);
 
 		if(TungstenModDataContainer.isExecutorRunning()) {
-			TungstenModDataContainer.EXECUTOR.tick((ClientPlayerEntity)(Object)this, MinecraftClient.getInstance().options);
+			try {
+				TungstenModDataContainer.EXECUTOR.tick((ClientPlayerEntity)(Object)this, MinecraftClient.getInstance().options);
+			} catch (Exception e) {
+				Debug.logMessage("Tungsten executor tick failed, stopping executor to prevent freeze.");
+				e.printStackTrace();
+				TungstenModDataContainer.EXECUTOR.stop = true;
+			}
 		}
 
 		if(!this.getAbilities().flying) {
