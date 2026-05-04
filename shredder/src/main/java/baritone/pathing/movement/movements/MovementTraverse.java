@@ -465,6 +465,10 @@ public class MovementTraverse extends Movement {
                         state.setInput(Input.CLICK_RIGHT, true);
                     }
                 }
+                // If fallback just expired, verify block was placed before continuing
+                if (godSneakFallbackTicks == 0 && !MovementHelper.canWalkOn(ctx, dest.down())) {
+                    return state.setStatus(MovementStatus.FAILED);
+                }
                 return state;
             }
 
