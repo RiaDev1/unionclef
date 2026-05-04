@@ -111,6 +111,25 @@ public class UnstuckChain extends SingleTaskChain {
         // Only trigger when there's an active user task
         if (!mod.getUserTaskChain().isActive()) return;
 
+        // Don't trigger when baritone is actively pathfinding (calculating a path)
+        if (mod.getClientBaritone().getPathingBehavior().isPathing()) {
+            posHistory.clear();
+            return;
+        }
+
+        // Don't trigger when any GUI/container is open (bot is interacting with inventory, chest, etc.)
+        if (MinecraftClient.getInstance().currentScreen != null) {
+            posHistory.clear();
+            return;
+        }
+
+        // Don't trigger when interacting with a container (different from currentScreen in some contexts)
+        if (StorageHelper.isChestOpen() || StorageHelper.isBlastFurnaceOpen()
+                || StorageHelper.isSmokerOpen() || StorageHelper.isBigCraftingOpen()) {
+            posHistory.clear();
+            return;
+        }
+
         Vec3d current = posHistory.getFirst();
         Vec3d old = posHistory.get(199);
 
