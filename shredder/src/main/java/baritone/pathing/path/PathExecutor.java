@@ -199,11 +199,26 @@ public class PathExecutor implements IPathExecutor, Helper {
             }
             // landed — snap forward to furthest matching position
             sprintJumping = false;
+            boolean foundLanding = false;
             for (int i = Math.min(path.length() - 2, pathPosition + 10); i > pathPosition; i--) {
                 if (((Movement) path.movements().get(i)).getValidPositions().contains(whereAmI)) {
                     pathPosition = i;
                     onChangeInPathPosition();
+                    foundLanding = true;
                     break;
+                }
+            }
+            // Fallback: use closest path position if exact match not found
+            if (!foundLanding) {
+                Pair<Double, BlockPos> closest = closestPathPos(path);
+                if (closest.getRight() != null) {
+                    for (int i = pathPosition; i < path.movements().size(); i++) {
+                        if (((Movement) path.movements().get(i)).getValidPositions().contains(closest.getRight())) {
+                            pathPosition = i;
+                            onChangeInPathPosition();
+                            break;
+                        }
+                    }
                 }
             }
         }
