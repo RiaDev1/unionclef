@@ -277,6 +277,12 @@ public class Settings implements IFailableConfigFile {
     private boolean autoMLGBucket = true;
 
     /**
+     * Minimum fall distance (in blocks) before the bot will attempt
+     * an enderpearl clutch save. Set with @set minPearlDistance <value>
+     */
+    private double minPearlFallDistance = 3.0;
+
+    /**
      * If true, will automatically reconnect to the last open server if you get disconnected.
      * <p>
      * If disabled, the bot will stop running when you disconnect from a server.
@@ -631,6 +637,10 @@ public class Settings implements IFailableConfigFile {
 
     public boolean shouldAutoMLGBucket() {
         return autoMLGBucket;
+    }
+
+    public double getMinPearlFallDistance() {
+        return minPearlFallDistance;
     }
 
     public boolean shouldCollectPickaxeFirst() {

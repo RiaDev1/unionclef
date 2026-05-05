@@ -34,6 +34,7 @@ public class MLGBucketFallChain extends SingleTaskChain implements ITaskOverride
     private boolean doingChorusFruit = false;
     private BlockPos lastGroundBlockPos = null;
     private final TimerGame voidFallTimer = new TimerGame(0.25);
+    private double _fallStartY = Double.MAX_VALUE;
 
     public MLGBucketFallChain(TaskRunner runner) {
         super(runner);
@@ -54,9 +55,16 @@ public class MLGBucketFallChain extends SingleTaskChain implements ITaskOverride
         if (mod.getPlayer().isOnGround()) {
             lastGroundBlockPos = mod.getPlayer().getBlockPos();
             voidFallTimer.reset();
+            _fallStartY = Double.MAX_VALUE;
         } else if (isInHellHole(mod)) {
+            // Track fall start for minimum distance check
+            if (_fallStartY == Double.MAX_VALUE) {
+                _fallStartY = mod.getPlayer().getY();
+            }
             if (mod.getItemStorage().hasItem(Items.ENDER_PEARL) && lastGroundBlockPos != null) {
-                if (voidFallTimer.elapsed()) {
+                if (voidFallTimer.elapsed()
+                        && _fallStartY != Double.MAX_VALUE
+                        && (_fallStartY - mod.getPlayer().getY()) >= mod.getModSettings().getMinPearlFallDistance()) {
                     Optional<Entity> closestPlayer = mod.getEntityTracker().getClosestEntity(
                             mod.getPlayer().getPos(),
                             p -> pearlAllowable(mod, (PlayerEntity) p),
