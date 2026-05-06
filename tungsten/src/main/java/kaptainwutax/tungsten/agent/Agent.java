@@ -1918,7 +1918,7 @@ public class Agent {
         agent.dolphinsGrace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE) ? player.getStatusEffect(StatusEffects.DOLPHINS_GRACE).getAmplifier() : -1;
         agent.levitation = player.hasStatusEffect(StatusEffects.LEVITATION) ? player.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() : -1;
         agent.movementSpeed = player.getMovementSpeed();
-        agent.airStrafingSpeed = 0.06f;
+        agent.airStrafingSpeed = player.airStrafingSpeed;
         agent.jumpingCooldown = ((AccessorLivingEntity)player).getJumpingCooldown();
         agent.hunger.setFoodLevel(player.getHungerManager().getFoodLevel());
         agent.hunger.setSaturationLevel(player.getHungerManager().getSaturationLevel());
@@ -1991,7 +1991,7 @@ public class Agent {
         agent.dolphinsGrace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE) ? player.getStatusEffect(StatusEffects.DOLPHINS_GRACE).getAmplifier() : -1;
         agent.levitation = player.hasStatusEffect(StatusEffects.LEVITATION) ? player.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() : -1;
         agent.movementSpeed = player.getMovementSpeed();
-        agent.airStrafingSpeed = 0.06f;
+        agent.airStrafingSpeed = player.airStrafingSpeed;
         agent.jumpingCooldown = ((AccessorLivingEntity)player).getJumpingCooldown();
         agent.hunger.setFoodLevel(player.getHungerManager().getFoodLevel());
         agent.hunger.setSaturationLevel(player.getHungerManager().getSaturationLevel());
@@ -2064,7 +2064,7 @@ public class Agent {
         agent.dolphinsGrace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE) ? player.getStatusEffect(StatusEffects.DOLPHINS_GRACE).getAmplifier() : -1;
         agent.levitation = player.hasStatusEffect(StatusEffects.LEVITATION) ? player.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() : -1;
         agent.movementSpeed = player.getMovementSpeed();
-        agent.airStrafingSpeed = 0.06f;
+        agent.airStrafingSpeed = player.airStrafingSpeed;
         agent.jumpingCooldown = ((AccessorLivingEntity)player).getJumpingCooldown();
         agent.hunger.setFoodLevel(player.getHungerManager().getFoodLevel());
         agent.hunger.setSaturationLevel(player.getHungerManager().getSaturationLevel());
