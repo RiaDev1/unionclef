@@ -13,6 +13,7 @@ import baritone.api.utils.input.Input;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.item.Item;
@@ -155,10 +156,9 @@ public class FoodChain extends SingleTaskChain {
             requestFillup = false;
         }
 
-        //FIXME should check if currently fighting
         if (hasFood && (needsToEat() || requestFillup) && cachedPerfectFood.isPresent() &&
-                !mod.getMLGBucketChain().isChorusFruiting() && !mod.getPlayer().isBlocking()/* &&
-                !areEnemiesNearby(mod)*/) {
+                !mod.getMLGBucketChain().isChorusFruiting() && !mod.getPlayer().isBlocking() &&
+                !areEnemiesNearby(mod)) {
 
             Item toUse = cachedPerfectFood.get();
 
@@ -190,9 +190,21 @@ public class FoodChain extends SingleTaskChain {
     }
 
     private boolean areEnemiesNearby(AltoClef mod) {
+        double dangerRange = isTryingToEat ? 14 : 7;
         for (Entity entity : mod.getEntityTracker().getCloseEntities()) {
-            if (entity instanceof HostileEntity hostile && hostile.distanceTo(mod.getPlayer()) < (isTryingToEat?14:7)) {
+            // Hostile mobs nearby — too dangerous to eat
+            if (entity instanceof HostileEntity hostile && hostile.distanceTo(mod.getPlayer()) < dangerRange) {
                 return true;
+            }
+            // Threatening players nearby (PvP) — too dangerous to eat
+            if (entity instanceof PlayerEntity player && player != mod.getPlayer()
+                    && player.distanceTo(mod.getPlayer()) < dangerRange
+                    && entity.getName() != null) {
+                String name = entity.getName().getString();
+                if (mod.getDamageTracker().getThreatTable().shouldAttack(name)
+                        || mod.getDamageTracker().getThreatTable().shouldAvoid(name)) {
+                    return true;
+                }
             }
         }
 
