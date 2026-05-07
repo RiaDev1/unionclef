@@ -32,6 +32,9 @@ public class UnstuckChain extends SingleTaskChain {
     private boolean interruptedEating = false;
     private TimerGame shimmyTaskTimer = new TimerGame(5);
     private boolean startedShimmying = false;
+    // Prevent rapid-fire shimmy loops (issue #13): cooldown grows with consecutive detections
+    private TimerGame stuckCooldown = new TimerGame(30);
+    private int consecutiveStuckDetections = 0;
 
     public UnstuckChain(TaskRunner runner) {
         super(runner);
@@ -138,10 +141,24 @@ public class UnstuckChain extends SingleTaskChain {
         double dy = Math.abs(current.getY() - old.getY());
 
         if (dx < 1.5 && dz < 1.5 && dy < 1.5) {
-            Debug.logMessage("Bot appears generally stuck (no movement for ~10s), triggering shimmy");
+            // Cooldown check: don't re-trigger shimmy too frequently (issue #13)
+            if (!stuckCooldown.elapsed()) {
+                posHistory.clear();
+                return;
+            }
+            consecutiveStuckDetections++;
+            // Exponential backoff: 30s → 60s → 120s max 120s
+            int cooldownSec = Math.min(30 << (consecutiveStuckDetections - 1), 120);
+            stuckCooldown = new TimerGame(cooldownSec);
+            Debug.logMessage("Bot appears generally stuck (no movement for ~10s), triggering shimmy (cooldown=" + cooldownSec + "s, detection #" + consecutiveStuckDetections + ")");
             startedShimmying = true;
             shimmyTaskTimer.reset();
             posHistory.clear();
+        } else {
+            // Bot is moving — reset consecutive counter
+            if (consecutiveStuckDetections > 0) {
+                consecutiveStuckDetections = 0;
+            }
         }
     }
 
