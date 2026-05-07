@@ -34,3 +34,5 @@ dist/
 # Script output
 scripts/result.txt
 scripts/custom/result.txt
+
+# Gradle wrapper jar (binary, committed separately)
