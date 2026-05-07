@@ -32,8 +32,9 @@ public class UnstuckChain extends SingleTaskChain {
     private boolean interruptedEating = false;
     private TimerGame shimmyTaskTimer = new TimerGame(5);
     private boolean startedShimmying = false;
-    // Prevent rapid-fire shimmy loops (issue #13): cooldown grows with consecutive detections
-    private TimerGame stuckCooldown = new TimerGame(30);
+    // Prevent rapid-fire shimmy loops (issue #13): cooldown grows with consecutive detections.
+    // Start elapsed (interval=0) so the first detection fires immediately.
+    private TimerGame stuckCooldown = new TimerGame(0);
     private int consecutiveStuckDetections = 0;
 
     public UnstuckChain(TaskRunner runner) {
