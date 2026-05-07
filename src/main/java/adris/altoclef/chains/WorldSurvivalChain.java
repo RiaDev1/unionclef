@@ -157,18 +157,16 @@ public class WorldSurvivalChain extends SingleTaskChain {
             setTask(new SafeRandomShimmyTask());
         }
         if (_moveStuckTimer.elapsed() && mod.getInfoSender().hasActiveTask()) {
-            _numTryingUnstuck++;
             Vec3d pos = mod.getPlayer().getPos();
             if (_lastPos.isInRange(pos, 2.0D)) {
-                if (_moveStuckTimer.getDuration() < 15) {
-                    setTask(new SafeRandomShimmyTask());
-                    return 60;
-                } else {
-                    Debug.logWarning("Maybe we stuck, change task may help");
-                    if (Butler.IsStuckFixAllow()) {
-                        _numTryingUnstuck++;
-                    }
+                _numTryingUnstuck++;
+                Debug.logWarning("Maybe we stuck, change task may help");
+                if (Butler.IsStuckFixAllow()) {
+                    _numTryingUnstuck++;
                 }
+            } else {
+                // Bot moved, reset stuck detection counter
+                _numTryingUnstuck = 0;
             }
             _lastPos = pos;
             _moveStuckTimer.reset();
