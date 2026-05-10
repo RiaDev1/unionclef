@@ -599,6 +599,7 @@ public class MobDefenseChain extends SingleTaskChain {
                 // At max fuse, the cost goes to basically zero.
                 double safety = getCreeperSafety(mod.getPlayer().getPos(), creeper);
                 if (safety < worstSafety) {
+                    worstSafety = safety;
                     target = creeper;
                 }
             }

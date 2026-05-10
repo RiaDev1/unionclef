@@ -161,9 +161,6 @@ public class WorldSurvivalChain extends SingleTaskChain {
             if (_lastPos.isInRange(pos, 2.0D)) {
                 _numTryingUnstuck++;
                 Debug.logWarning("Maybe we stuck, change task may help");
-                if (Butler.IsStuckFixAllow()) {
-                    _numTryingUnstuck++;
-                }
             } else {
                 // Bot moved, reset stuck detection counter
                 _numTryingUnstuck = 0;

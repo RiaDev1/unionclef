@@ -78,14 +78,13 @@ public class FoodChain extends SingleTaskChain {
             if (altoClef.getItemStorage().hasItem(Items.SHIELD) || altoClef.getItemStorage().hasItemInOffhand(Items.SHIELD)) {
                 if (StorageHelper.getItemStackInSlot(PlayerSlot.OFFHAND_SLOT).getItem() != Items.SHIELD) {
                     altoClef.getSlotHandler().forceEquipItemToOffhand(Items.SHIELD);
-                } else {
-                    isTryingToEat = false;
-                    requestFillup = false;
                 }
-            } else {
-                isTryingToEat = false;
-                requestFillup = false;
             }
+            // Always clear eating state regardless of shield equip outcome.
+            // If forceEquipItemToOffhand fails (e.g. server cancels the slot action),
+            // we must not stay stuck believing we're still eating.
+            isTryingToEat = false;
+            requestFillup = false;
             altoClef.getInputControls().release(Input.CLICK_RIGHT);
             altoClef.getExtraBaritoneSettings().setInteractionPaused(false);
         }
