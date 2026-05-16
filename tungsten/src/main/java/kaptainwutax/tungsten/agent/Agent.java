@@ -1918,7 +1918,7 @@ public class Agent {
         agent.dolphinsGrace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE) ? player.getStatusEffect(StatusEffects.DOLPHINS_GRACE).getAmplifier() : -1;
         agent.levitation = player.hasStatusEffect(StatusEffects.LEVITATION) ? player.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() : -1;
         agent.movementSpeed = player.getMovementSpeed();
-        agent.airStrafingSpeed = ((AccessorLivingEntity)player).getAirStrafingSpeed();
+        agent.airStrafingSpeed = 0.02F; // LivingEntity.airStrafingSpeed removed in yarn 1.21.11; 0.02F is the vanilla default
         agent.jumpingCooldown = ((AccessorLivingEntity)player).getJumpingCooldown();
         agent.hunger.setFoodLevel(player.getHungerManager().getFoodLevel());
         agent.hunger.setSaturationLevel(player.getHungerManager().getSaturationLevel());
@@ -1991,7 +1991,7 @@ public class Agent {
         agent.dolphinsGrace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE) ? player.getStatusEffect(StatusEffects.DOLPHINS_GRACE).getAmplifier() : -1;
         agent.levitation = player.hasStatusEffect(StatusEffects.LEVITATION) ? player.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() : -1;
         agent.movementSpeed = player.getMovementSpeed();
-        agent.airStrafingSpeed = ((AccessorLivingEntity)player).getAirStrafingSpeed();
+        agent.airStrafingSpeed = 0.02F; // LivingEntity.airStrafingSpeed removed in yarn 1.21.11; 0.02F is the vanilla default
         agent.jumpingCooldown = ((AccessorLivingEntity)player).getJumpingCooldown();
         agent.hunger.setFoodLevel(player.getHungerManager().getFoodLevel());
         agent.hunger.setSaturationLevel(player.getHungerManager().getSaturationLevel());
@@ -2064,7 +2064,7 @@ public class Agent {
         agent.dolphinsGrace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE) ? player.getStatusEffect(StatusEffects.DOLPHINS_GRACE).getAmplifier() : -1;
         agent.levitation = player.hasStatusEffect(StatusEffects.LEVITATION) ? player.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() : -1;
         agent.movementSpeed = player.getMovementSpeed();
-        agent.airStrafingSpeed = ((AccessorLivingEntity)player).getAirStrafingSpeed();
+        agent.airStrafingSpeed = 0.02F; // LivingEntity.airStrafingSpeed removed in yarn 1.21.11; 0.02F is the vanilla default
         agent.jumpingCooldown = ((AccessorLivingEntity)player).getJumpingCooldown();
         agent.hunger.setFoodLevel(player.getHungerManager().getFoodLevel());
         agent.hunger.setSaturationLevel(player.getHungerManager().getSaturationLevel());
