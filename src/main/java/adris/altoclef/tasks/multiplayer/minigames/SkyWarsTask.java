@@ -661,7 +661,11 @@ public class SkyWarsTask extends Task {
             }
         }
         // Also check equipped armor — inventory scan above misses armor slots
+        //#if MC >= 12111
+        //$$ for (ItemStack armorStack : java.util.List.of(mod.getPlayer().getEquippedStack(net.minecraft.entity.EquipmentSlot.HEAD), mod.getPlayer().getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST), mod.getPlayer().getEquippedStack(net.minecraft.entity.EquipmentSlot.LEGS), mod.getPlayer().getEquippedStack(net.minecraft.entity.EquipmentSlot.FEET))) {
+        //#else
         for (ItemStack armorStack : mod.getPlayer().getInventory().armor) {
+        //#endif
             if (armorStack.isEmpty()) continue;
             if (!catSet.contains(armorStack.getItem())) continue;
             int armorScore = scoreStack(armorStack);
